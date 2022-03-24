@@ -1,0 +1,48 @@
+<div id="floating-panel">
+  <b>Mode of Travel: </b>
+  <select id="mode">
+    <option value="DRIVING">Driving</option>
+    <option value="WALKING">Walking</option>
+    <option value="BICYCLING">Bicycling</option>
+    <option value="TRANSIT">Transit</option>
+  </select>
+</div>
+<div id="map"></div>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script>
+    function initMap() {
+        const directionsRenderer = new google.maps.DirectionsRenderer();
+        const directionsService = new google.maps.DirectionsService();
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 14,
+            center: { lat: 21.008074159771876, lng: 105.79731112160181 },
+        });
+
+        directionsRenderer.setMap(map);
+        calculateAndDisplayRoute(directionsService, directionsRenderer);
+        document.getElementById("mode").addEventListener("change", () => {
+            calculateAndDisplayRoute(directionsService, directionsRenderer);
+        });
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        const selectedMode = document.getElementById("mode").value;
+
+        directionsService
+            .route({
+                origin: { lat: 21.008074159771876, lng: 105.79731112160181 },
+                destination: { lat: 21.03056770174604, lng: 105.78327780408765 },
+                // Note that Javascript allows us to access the constant
+                // using square brackets and a string value as its
+                // "property."
+                travelMode: google.maps.TravelMode[selectedMode],
+            })
+            .then((response) => {
+                directionsRenderer.setDirections(response);
+            })
+            .catch((e) => window.alert("Directions request failed due to " + status));
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQPV9W0J1oRw8NPFRaEBKpFPCTe7eYJYU&callback=initMap"></script>
+
