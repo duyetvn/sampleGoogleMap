@@ -44,5 +44,5 @@
             .catch((e) => window.alert("Directions request failed due to " + status));
     }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQPV9W0J1oRw8NPFRaEBKpFPCTe7eYJYU&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google_map_key %>&callback=initMap"></script>
 
